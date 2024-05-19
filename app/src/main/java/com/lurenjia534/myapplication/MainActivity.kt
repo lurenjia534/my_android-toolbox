@@ -51,6 +51,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -60,6 +62,8 @@ import androidx.navigation.compose.rememberNavController
 import androidx.wear.compose.material.ContentAlpha
 import com.lurenjia534.myapplication.IPinfo.Ipinfo
 import com.lurenjia534.myapplication.IPinfo.RetrofitClient
+import com.lurenjia534.myapplication.deviceInfo.DeviceDetails
+import com.lurenjia534.myapplication.deviceInfo.getSystemInfo
 import com.lurenjia534.myapplication.ui.theme.MyApplicationTheme
 import kotlinx.coroutines.launch
 import retrofit2.Call
@@ -93,20 +97,12 @@ fun MyApp() {
             ModalDrawerSheet(
             ) {
                 Text("我的小工具集合", modifier = Modifier.padding(16.dp), style = TextStyle(
-                    fontStyle = androidx.compose.ui.text.font.FontStyle.Normal,
-                    fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
+                    fontStyle = FontStyle.Normal,
+                    fontWeight = FontWeight.Bold,
                     fontSize = 25.sp,
-                    fontFamily = androidx.compose.ui.text.font.FontFamily.Default
+                    fontFamily = FontFamily.Default
                 )
                 )
-//                Text("方便自己", modifier = Modifier.padding(8.dp), style = TextStyle(
-//                    fontStyle = androidx.compose.ui.text.font.FontStyle.Normal,
-//                    fontWeight = androidx.compose.ui.text.font.FontWeight.Normal,
-//                    fontSize = 15.sp,
-//                    fontFamily = androidx.compose.ui.text.font.FontFamily.Default
-//                ),
-//                    color = MaterialTheme.colorScheme.primary
-//                )
                HorizontalDivider(
                    modifier = Modifier.padding(16.dp),
                      color = MaterialTheme.colorScheme.primary.copy(alpha = 0.12f)
@@ -378,7 +374,6 @@ fun getIpInfo(ip: String, callback: (Ipinfo?, String?) -> Unit) {
     })
 }
 
-
 @Composable
 fun Screen2() {
     LazyColumn {
@@ -394,7 +389,12 @@ fun Screen2() {
                     shape = MaterialTheme.shapes.medium,
                     border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary),
                 ) {
-                    IpInfoText(label = "Device Info", value = "Device Info")
+                    // 创建一个getDeviceInfo的实例
+                    val deviceInfoProvider = getSystemInfo()
+                    // 调用getDeviceInfo()方法来获取设备信息
+                    val deviceDetails: DeviceDetails = deviceInfoProvider.getDeviceInfo()
+
+                    IpInfoText(label = "Device", value = deviceDetails.deviceName)
                 }
             }
         }
