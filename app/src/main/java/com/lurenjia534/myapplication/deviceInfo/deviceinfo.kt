@@ -28,7 +28,7 @@ class getSystemInfo(private val context: Context) {
         val deviceDisplay: String = android.os.Build.DISPLAY  // 设备显示
         val deviceBootloader: String = android.os.Build.BOOTLOADER  // 设备引导程序
         val deviceRadio: String = Build.getRadioVersion() ?: "Unknown" // 设备无线电版本
-        val deviceSerial: String = if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
+        val deviceSerial: String = if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {  // 设备序列号
             try {
                 Build.getSerial() ?: "Unknown"
             } catch (e: SecurityException) {

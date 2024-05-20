@@ -346,13 +346,15 @@ fun IpInfoText(label: String, value: String) {
             text = label,
             style = MaterialTheme.typography.labelMedium,
             color = MaterialTheme.colorScheme.primary,
-            fontWeight = FontWeight.Bold
+            fontWeight = FontWeight.Bold,
+            fontFamily = FontFamily.Default
         )
         Text(
             text = value,
             style = MaterialTheme.typography.bodyLarge,
             color = MaterialTheme.colorScheme.onSurface,
-            fontWeight = FontWeight.Normal
+            fontWeight = FontWeight.Normal,
+            fontFamily = FontFamily.Default
         )
     }
 }
@@ -389,21 +391,50 @@ fun Screen2() {
                 OutlinedCard(
                     shape = MaterialTheme.shapes.medium,
                     border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary),
+                    modifier = Modifier.padding(8.dp)
                 ) {
-                    // 创建一个getDeviceInfo的实例
-                    val deviceInfoProvider = getSystemInfo(context = LocalContext.current)
-                    // 调用getDeviceInfo()方法来获取设备信息
-                    val deviceDetails: DeviceDetails = deviceInfoProvider.getDeviceInfo()
+                    Column(
+                        modifier = Modifier.padding(16.dp)
+                    ) {
+                        // 创建一个getDeviceInfo的实例
+                        val deviceInfoProvider = getSystemInfo(context = LocalContext.current)
+                        // 调用getDeviceInfo()方法来获取设备信息
+                        val deviceDetails: DeviceDetails = deviceInfoProvider.getDeviceInfo()
 
-                    IpInfoText(label = "Device", value = deviceDetails.deviceName)
-                    IpInfoText(label = "Manufacturer", value = deviceDetails.deviceManufacturer)
-                    IpInfoText(label = "Version", value = deviceDetails.deviceVersion)
-                    IpInfoText(label = "SDK", value = deviceDetails.deviceSDK.toString())
-                    IpInfoText(label = "Brand", value = deviceDetails.deviceBrand)
-                    IpInfoText(label = "Product", value = deviceDetails.deviceProduct)
-                    IpInfoText(label = "Board", value = deviceDetails.deviceBoard)
-                    IpInfoText(label = "Hardware", value = deviceDetails.deviceHardware)
-                    IpInfoText(label = "Fingerprint", value = deviceDetails.deviceFingerprint)
+                        IpInfoText(label = "Device", value = deviceDetails.deviceName)
+                        IpInfoText(label = "Manufacturer", value = deviceDetails.deviceManufacturer)
+                        IpInfoText(label = "Version", value = deviceDetails.deviceVersion)
+                        IpInfoText(label = "SDK", value = deviceDetails.deviceSDK.toString())
+                        IpInfoText(label = "Brand", value = deviceDetails.deviceBrand)
+                        IpInfoText(label = "Product", value = deviceDetails.deviceProduct)
+                        IpInfoText(label = "Board", value = deviceDetails.deviceBoard)
+                        IpInfoText(label = "Hardware", value = deviceDetails.deviceHardware)
+                        IpInfoText(label = "Fingerprint", value = deviceDetails.deviceFingerprint)
+                        IpInfoText(label = "Host", value = deviceDetails.deviceHost)
+                        IpInfoText(label = "ID", value = deviceDetails.deviceID)
+                        IpInfoText(label = "Tags", value = deviceDetails.deviceTags)
+                        IpInfoText(label = "Build Type", value = deviceDetails.deviceType)
+                        IpInfoText(label = "User", value = deviceDetails.deviceUser)
+                        IpInfoText(label = "Display", value = deviceDetails.deviceDisplay)
+                        IpInfoText(label = "Bootloader", value = deviceDetails.deviceBootloader)
+                        IpInfoText(label = "Radio", value = deviceDetails.deviceRadio)
+                        IpInfoText(label = "Serial", value = deviceDetails.deviceSerial)
+                        IpInfoText(label = "Time", value = deviceDetails.deviceTime.toString())
+                        IpInfoText(label = "Security Patch", value = deviceDetails.deviceSecurityPatch)
+                        IpInfoText(label = "Codename", value = deviceDetails.deviceCodename)
+                        IpInfoText(label = "Incremental", value = deviceDetails.deviceIncremental)
+                        IpInfoText(label = "Base OS", value = deviceDetails.deviceBaseOS)
+                        IpInfoText(label = "Version Code Name", value = deviceDetails.deviceVersionCodeName)
+                        IpInfoText(label = "Version Release", value = deviceDetails.deviceVersionRelease)
+                        IpInfoText(label = "Version SDK", value = deviceDetails.deviceVersionSDK.toString())
+                        IpInfoText(label = "Version Security Patch", value = deviceDetails.deviceVersionSecurityPatch)
+                        IpInfoText(label = "Version Incremental", value = deviceDetails.deviceVersionIncremental)
+                        IpInfoText(label = "Version Base OS", value = deviceDetails.deviceVersionBaseOS)
+                        IpInfoText(label = "Version Preview SDK", value = deviceDetails.deviceVersionPreviewSDK.toString())
+
+                    }
+
+
                 }
             }
         }
