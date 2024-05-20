@@ -1,8 +1,15 @@
 package com.lurenjia534.myapplication.deviceInfo
 
+import android.Manifest
+import android.content.Context
 import android.os.Build
+import android.provider.Settings
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import android.telephony.TelephonyManager
+import android.content.pm.PackageManager
 
-class getSystemInfo {
+class getSystemInfo(private val context: Context) {
     fun getDeviceInfo() : DeviceDetails {
         val deviceName: String = android.os.Build.MODEL // 设备名称
         val deviceManufacturer: String = android.os.Build.MANUFACTURER // 设备制造商
@@ -20,8 +27,16 @@ class getSystemInfo {
         val deviceUser: String = android.os.Build.USER  // 设备用户
         val deviceDisplay: String = android.os.Build.DISPLAY  // 设备显示
         val deviceBootloader: String = android.os.Build.BOOTLOADER  // 设备引导程序
-        val deviceRadio: String = android.os.Build.getRadioVersion() ?: "Unknown" // 设备无线电版本
-        val deviceSerial: String = android.os.Build.getSerial() ?: "Unknown" // 设备序列号
+        val deviceRadio: String = Build.getRadioVersion() ?: "Unknown" // 设备无线电版本
+        val deviceSerial: String = if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
+            try {
+                Build.getSerial() ?: "Unknown"
+            } catch (e: SecurityException) {
+                "Permission denied"
+            }
+        } else {
+            "Permission not granted"
+        }
         val deviceTime: Long = android.os.Build.TIME // 设备时间
         val deviceSecurityPatch: String = android.os.Build.VERSION.SECURITY_PATCH  // 设备安全补丁
         val deviceCodename: String = android.os.Build.VERSION.CODENAME  // 设备代号

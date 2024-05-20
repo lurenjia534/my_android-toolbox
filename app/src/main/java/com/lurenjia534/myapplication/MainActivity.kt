@@ -50,6 +50,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
@@ -390,11 +391,19 @@ fun Screen2() {
                     border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary),
                 ) {
                     // 创建一个getDeviceInfo的实例
-                    val deviceInfoProvider = getSystemInfo()
+                    val deviceInfoProvider = getSystemInfo(context = LocalContext.current)
                     // 调用getDeviceInfo()方法来获取设备信息
                     val deviceDetails: DeviceDetails = deviceInfoProvider.getDeviceInfo()
 
                     IpInfoText(label = "Device", value = deviceDetails.deviceName)
+                    IpInfoText(label = "Manufacturer", value = deviceDetails.deviceManufacturer)
+                    IpInfoText(label = "Version", value = deviceDetails.deviceVersion)
+                    IpInfoText(label = "SDK", value = deviceDetails.deviceSDK.toString())
+                    IpInfoText(label = "Brand", value = deviceDetails.deviceBrand)
+                    IpInfoText(label = "Product", value = deviceDetails.deviceProduct)
+                    IpInfoText(label = "Board", value = deviceDetails.deviceBoard)
+                    IpInfoText(label = "Hardware", value = deviceDetails.deviceHardware)
+                    IpInfoText(label = "Fingerprint", value = deviceDetails.deviceFingerprint)
                 }
             }
         }
