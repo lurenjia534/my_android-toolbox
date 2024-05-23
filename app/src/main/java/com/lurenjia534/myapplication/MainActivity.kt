@@ -112,7 +112,7 @@ fun MyApp() {
                    modifier = Modifier.padding(24.dp)
                 ) {
                     NavigationDrawerItem(
-                        label = { Text(text = "IP info 查询", fontWeight = if (selectedItem ==0) FontWeight.Bold else FontWeight.Normal, color =  if (selectedItem == 0) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface)  },
+                        label = { Text(text = "IP info Inquire", fontWeight = if (selectedItem ==0) FontWeight.Bold else FontWeight.Normal, color =  if (selectedItem == 0) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface)  },
                         selected = selectedItem == 0,
                         onClick = {
                             selectedItem = 0
@@ -132,7 +132,7 @@ fun MyApp() {
                         }
                     )
                     NavigationDrawerItem(
-                        label = { Text(text = "设备信息", fontWeight =  if(selectedItem == 1) FontWeight.Bold else FontWeight.Normal, color = if (selectedItem == 1) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface) },
+                        label = { Text(text = "Device Info", fontWeight =  if(selectedItem == 1) FontWeight.Bold else FontWeight.Normal, color = if (selectedItem == 1) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface) },
                         selected = selectedItem == 1,
                         onClick = {
                             selectedItem = 1
@@ -153,7 +153,7 @@ fun MyApp() {
                         }
                     )
                     NavigationDrawerItem(
-                        label = { Text(text = "通知通知", fontWeight =  if(selectedItem == 2) FontWeight.Bold else FontWeight.Normal, color = if (selectedItem == 2) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface) },
+                        label = { Text(text = "notification notification", fontWeight =  if(selectedItem == 2) FontWeight.Bold else FontWeight.Normal, color = if (selectedItem == 2) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface) },
                         selected = selectedItem == 2,
                         onClick = {
                             selectedItem = 2
@@ -258,8 +258,8 @@ fun Screen1() {
            enabled = true,
            readOnly = false,
            textStyle = TextStyle.Default,
-           label = { Text("请输入IP地址") },
-           placeholder = { Text("IP地址") },
+           label = { Text("Input IP address") },
+           placeholder = { Text("IP address") },
            trailingIcon = {
                IconButton(onClick = { text = "" }) {
                    if (text.isNotEmpty()) {
@@ -290,7 +290,7 @@ fun Screen1() {
            },
            modifier = Modifier.padding(top = 16.dp)
        ) {
-           Text(text = "查询")
+           Text(text = " Inquire ")
        }
 
        if (isLoading) {
@@ -299,7 +299,15 @@ fun Screen1() {
 
        if (ipInfo != null) {
            IpInfoDisplay(ipInfo!!)
-           Text(text = "Powered by IPinfo.io", modifier = Modifier.padding(top = 16.dp), color = MaterialTheme.colorScheme.onSurface.copy(alpha = ContentAlpha.medium))
+           Text(
+               text = "Powered by IPinfo.io",
+               modifier = Modifier
+                   .padding(top = 16.dp)
+                   .align(Alignment.CenterHorizontally),
+               color = MaterialTheme.colorScheme.primary.copy(alpha = ContentAlpha.high),
+               style = MaterialTheme.typography.labelSmall
+           )
+
        }
 
        if (errorMessage != null) {
