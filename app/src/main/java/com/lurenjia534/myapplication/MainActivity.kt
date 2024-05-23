@@ -97,7 +97,7 @@ fun MyApp() {
         drawerContent = {
             ModalDrawerSheet(
             ) {
-                Text("我的小工具集合", modifier = Modifier.padding(16.dp), style = TextStyle(
+                Text("My tool box", modifier = Modifier.padding(16.dp), style = TextStyle(
                     fontStyle = FontStyle.Normal,
                     fontWeight = FontWeight.Bold,
                     fontSize = 25.sp,
@@ -220,7 +220,7 @@ fun CustomizeTopBar(onNavigationIconClick: () -> Unit) {
             }
         },
         title = {
-            Text(text = "My App Title")
+            Text(text = "My tool box")
         },
         actions = {
             IconButton(onClick = { /*TODO*/ }) {
@@ -299,6 +299,7 @@ fun Screen1() {
 
        if (ipInfo != null) {
            IpInfoDisplay(ipInfo!!)
+           Text(text = "Powered by IPinfo.io", modifier = Modifier.padding(top = 16.dp), color = MaterialTheme.colorScheme.onSurface.copy(alpha = ContentAlpha.medium))
        }
 
        if (errorMessage != null) {
@@ -433,8 +434,6 @@ fun Screen2() {
                         IpInfoText(label = "Version Preview SDK", value = deviceDetails.deviceVersionPreviewSDK.toString())
 
                     }
-
-
                 }
             }
         }
