@@ -1,6 +1,9 @@
 package com.lurenjia534.myapplication
 
+import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -57,6 +60,7 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.app.NotificationManagerCompat
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -70,6 +74,7 @@ import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import android.provider.Settings;
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -294,7 +299,7 @@ fun Screen1() {
        }
 
        if (isLoading) {
-           LinearProgressIndicator(modifier = Modifier.padding(top = 16.dp),)
+           LinearProgressIndicator(modifier = Modifier.padding(top = 16.dp))
        }
 
        if (ipInfo != null) {
@@ -451,10 +456,27 @@ fun Screen2() {
 
 @Composable
 fun Screen3() {
+    val context = LocalContext.current
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-        Text(text = "notify")
+        Button(onClick = {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
+                if (!NotificationManagerCompat.from(context).areNotificationsEnabled()) {
+                    val intent = Intent().apply {
+                        action = Settings.ACTION_APP_NOTIFICATION_SETTINGS
+                        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        putExtra(Settings.EXTRA_APP_PACKAGE, context.packageName)
+                    }
+                    context.startActivity(intent)
+                } else {
+                    // 提示用户通知权限已开启
+                    Toast.makeText(context, "通知权限已开启", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }) {
+            Text(text = "114514")
+        }
     }
 }
