@@ -455,6 +455,6 @@ fun Screen3() {
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-        Text(text = "持久化通知")
+        Text(text = "notify")
     }
 }
