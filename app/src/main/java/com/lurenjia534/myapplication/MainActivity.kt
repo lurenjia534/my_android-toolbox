@@ -75,6 +75,8 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import android.provider.Settings;
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -461,22 +463,33 @@ fun Screen3() {
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-        Button(onClick = {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
-                if (!NotificationManagerCompat.from(context).areNotificationsEnabled()) {
-                    val intent = Intent().apply {
-                        action = Settings.ACTION_APP_NOTIFICATION_SETTINGS
-                        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                        putExtra(Settings.EXTRA_APP_PACKAGE, context.packageName)
+        Column(
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(text = "Notification permission is required to use this feature", style = MaterialTheme.typography.labelMedium,
+                color = MaterialTheme.colorScheme.primary,
+                fontWeight = FontWeight.Bold,
+                fontFamily = FontFamily.Default
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Button(onClick = {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
+                    if (!NotificationManagerCompat.from(context).areNotificationsEnabled()) {
+                        val intent = Intent().apply {
+                            action = Settings.ACTION_APP_NOTIFICATION_SETTINGS
+                            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                            putExtra(Settings.EXTRA_APP_PACKAGE, context.packageName)
+                        }
+                        context.startActivity(intent)
+                    } else {
+                        // 提示用户通知权限已开启
+                        Toast.makeText(context, "通知权限已开启", Toast.LENGTH_SHORT).show()
                     }
-                    context.startActivity(intent)
-                } else {
-                    // 提示用户通知权限已开启
-                    Toast.makeText(context, "通知权限已开启", Toast.LENGTH_SHORT).show()
                 }
+            }) {
+                Text(text = "114514")
             }
-        }) {
-            Text(text = "114514")
         }
     }
 }
