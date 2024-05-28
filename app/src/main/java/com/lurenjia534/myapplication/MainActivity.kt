@@ -1,6 +1,8 @@
 package com.lurenjia534.myapplication
 
+import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
@@ -77,6 +79,8 @@ import retrofit2.Response
 import android.provider.Settings;
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
+import androidx.compose.material3.TextButton
+import androidx.core.content.ContextCompat
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -305,16 +309,22 @@ fun Screen1() {
        }
 
        if (ipInfo != null) {
+           val context = LocalContext.current
            IpInfoDisplay(ipInfo!!)
-           Text(
-               text = "Powered by IPinfo.io",
-               modifier = Modifier
-                   .padding(top = 16.dp)
-                   .align(Alignment.CenterHorizontally),
-               color = MaterialTheme.colorScheme.primary.copy(alpha = ContentAlpha.high),
-               style = MaterialTheme.typography.labelSmall
-           )
-
+           TextButton(onClick = {
+               val url = "https://ipinfo.io/"
+               val intent = Intent(Intent.ACTION_VIEW)  // 创建一个Intent对象
+               intent.data = Uri.parse(url)  // 设置Intent的data属性
+               ContextCompat.startActivity(context, intent, null)  // 启动Intent
+           }) {
+               Text(
+                   text = "Powered by IPinfo.io",
+                   modifier = Modifier
+                       .padding(top = 16.dp),
+                   color = MaterialTheme.colorScheme.primary.copy(alpha = ContentAlpha.high),
+                   style = MaterialTheme.typography.labelSmall
+               )
+           }
        }
 
        if (errorMessage != null) {
