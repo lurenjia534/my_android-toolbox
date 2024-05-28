@@ -108,22 +108,29 @@ fun MyApp() {
         drawerContent = {
             ModalDrawerSheet(
             ) {
-                Text("My tool box", modifier = Modifier.padding(16.dp), style = TextStyle(
-                    fontStyle = FontStyle.Normal,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 25.sp,
-                    fontFamily = FontFamily.Default
+                Text(
+                    "My tool box", modifier = Modifier.padding(16.dp), style = TextStyle(
+                        fontStyle = FontStyle.Normal,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 25.sp,
+                        fontFamily = FontFamily.Default
+                    )
                 )
+                HorizontalDivider(
+                    modifier = Modifier.padding(16.dp),
+                    color = MaterialTheme.colorScheme.primary.copy(alpha = 0.12f)
                 )
-               HorizontalDivider(
-                   modifier = Modifier.padding(16.dp),
-                     color = MaterialTheme.colorScheme.primary.copy(alpha = 0.12f)
-               )
                 Column(
-                   modifier = Modifier.padding(24.dp)
+                    modifier = Modifier.padding(24.dp)
                 ) {
                     NavigationDrawerItem(
-                        label = { Text(text = "IP info Inquire", fontWeight = if (selectedItem ==0) FontWeight.Bold else FontWeight.Normal, color =  if (selectedItem == 0) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface)  },
+                        label = {
+                            Text(
+                                text = "IP info Inquire",
+                                fontWeight = if (selectedItem == 0) FontWeight.Bold else FontWeight.Normal,
+                                color = if (selectedItem == 0) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
+                            )
+                        },
                         selected = selectedItem == 0,
                         onClick = {
                             selectedItem = 0
@@ -133,7 +140,8 @@ fun MyApp() {
                             }
                             scope.launch {
                                 drawerState.close()
-                            }},
+                            }
+                        },
                         colors = NavigationDrawerItemDefaults.colors(
                             selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
                             selectedIconColor = MaterialTheme.colorScheme.primary,
@@ -143,7 +151,13 @@ fun MyApp() {
                         }
                     )
                     NavigationDrawerItem(
-                        label = { Text(text = "Device Info", fontWeight =  if(selectedItem == 1) FontWeight.Bold else FontWeight.Normal, color = if (selectedItem == 1) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface) },
+                        label = {
+                            Text(
+                                text = "Device Info",
+                                fontWeight = if (selectedItem == 1) FontWeight.Bold else FontWeight.Normal,
+                                color = if (selectedItem == 1) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
+                            )
+                        },
                         selected = selectedItem == 1,
                         onClick = {
                             selectedItem = 1
@@ -164,7 +178,13 @@ fun MyApp() {
                         }
                     )
                     NavigationDrawerItem(
-                        label = { Text(text = "notification notification", fontWeight =  if(selectedItem == 2) FontWeight.Bold else FontWeight.Normal, color = if (selectedItem == 2) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface) },
+                        label = {
+                            Text(
+                                text = "notification notification",
+                                fontWeight = if (selectedItem == 2) FontWeight.Bold else FontWeight.Normal,
+                                color = if (selectedItem == 2) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
+                            )
+                        },
                         selected = selectedItem == 2,
                         onClick = {
                             selectedItem = 2
@@ -245,92 +265,92 @@ fun CustomizeTopBar(onNavigationIconClick: () -> Unit) {
 @Composable
 fun Screen1() {
 
-    var ipInfo by remember {mutableStateOf<Ipinfo?>(null) }
+    var ipInfo by remember { mutableStateOf<Ipinfo?>(null) }
     var errorMessage by remember { mutableStateOf<String?>(null) }
     var isLoading by remember { mutableStateOf(false) }
     var text by remember { mutableStateOf("") }
     var isError by remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
 
-   Column(
-       modifier = Modifier
-           .fillMaxSize()
-           .padding(32.dp),
-       verticalArrangement = Arrangement.Top,
-       horizontalAlignment = Alignment.CenterHorizontally
-   ) {
-       OutlinedTextField(
-         value = text,
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(32.dp),
+        verticalArrangement = Arrangement.Top,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        OutlinedTextField(
+            value = text,
             onValueChange = {
-             text = it
-             isError = it.isEmpty()
+                text = it
+                isError = it.isEmpty()
             },
-           modifier = Modifier.fillMaxWidth(),
-           enabled = true,
-           readOnly = false,
-           textStyle = TextStyle.Default,
-           label = { Text("Input IP address") },
-           placeholder = { Text("IP address") },
-           trailingIcon = {
-               IconButton(onClick = { text = "" }) {
-                   if (text.isNotEmpty()) {
-                       Icon(Icons.Filled.Clear, contentDescription = null)
-                   }
-               }
-           },
-           singleLine = true,
-           shape = MaterialTheme.shapes.small,
-           colors = OutlinedTextFieldDefaults.colors(
-               focusedBorderColor = MaterialTheme.colorScheme.primary,
-               unfocusedBorderColor = MaterialTheme.colorScheme.onSurface.copy(alpha = ContentAlpha.disabled),
-               errorBorderColor = MaterialTheme.colorScheme.error
-           )
-       )
-       Button(
-           onClick = {
-               isLoading = true
-               ipInfo = null
-               errorMessage = null
-               scope.launch {
-                   getIpInfo(text) { result, error ->
-                       isLoading = false
-                       ipInfo = result
-                       errorMessage = error
-                   }
-               }
-           },
-           modifier = Modifier.padding(top = 16.dp)
-       ) {
-           Text(text = " Inquire ")
-       }
+            modifier = Modifier.fillMaxWidth(),
+            enabled = true,
+            readOnly = false,
+            textStyle = TextStyle.Default,
+            label = { Text("Input IP address") },
+            placeholder = { Text("IP address") },
+            trailingIcon = {
+                IconButton(onClick = { text = "" }) {
+                    if (text.isNotEmpty()) {
+                        Icon(Icons.Filled.Clear, contentDescription = null)
+                    }
+                }
+            },
+            singleLine = true,
+            shape = MaterialTheme.shapes.small,
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedBorderColor = MaterialTheme.colorScheme.primary,
+                unfocusedBorderColor = MaterialTheme.colorScheme.onSurface.copy(alpha = ContentAlpha.disabled),
+                errorBorderColor = MaterialTheme.colorScheme.error
+            )
+        )
+        Button(
+            onClick = {
+                isLoading = true
+                ipInfo = null
+                errorMessage = null
+                scope.launch {
+                    getIpInfo(text) { result, error ->
+                        isLoading = false
+                        ipInfo = result
+                        errorMessage = error
+                    }
+                }
+            },
+            modifier = Modifier.padding(top = 16.dp)
+        ) {
+            Text(text = " Inquire ")
+        }
 
-       if (isLoading) {
-           LinearProgressIndicator(modifier = Modifier.padding(top = 16.dp))
-       }
+        if (isLoading) {
+            LinearProgressIndicator(modifier = Modifier.padding(top = 16.dp))
+        }
 
-       if (ipInfo != null) {
-           val context = LocalContext.current
-           IpInfoDisplay(ipInfo!!)
-           TextButton(onClick = {
-               val url = "https://ipinfo.io/"
-               val intent = Intent(Intent.ACTION_VIEW)  // 创建一个Intent对象
-               intent.data = Uri.parse(url)  // 设置Intent的data属性
-               ContextCompat.startActivity(context, intent, null)  // 启动Intent
-           }) {
-               Text(
-                   text = "Powered by IPinfo.io",
-                   modifier = Modifier
-                       .padding(top = 16.dp),
-                   color = MaterialTheme.colorScheme.primary.copy(alpha = ContentAlpha.high),
-                   style = MaterialTheme.typography.labelSmall
-               )
-           }
-       }
+        if (ipInfo != null) {
+            val context = LocalContext.current
+            IpInfoDisplay(ipInfo!!)
+            TextButton(onClick = {
+                val url = "https://ipinfo.io/"
+                val intent = Intent(Intent.ACTION_VIEW)  // 创建一个Intent对象
+                intent.data = Uri.parse(url)  // 设置Intent的data属性
+                ContextCompat.startActivity(context, intent, null)  // 启动Intent
+            }) {
+                Text(
+                    text = "Powered by IPinfo.io",
+                    modifier = Modifier
+                        .padding(top = 16.dp),
+                    color = MaterialTheme.colorScheme.primary.copy(alpha = ContentAlpha.high),
+                    style = MaterialTheme.typography.labelSmall
+                )
+            }
+        }
 
-       if (errorMessage != null) {
-           Text("Error: $errorMessage", color = MaterialTheme.colorScheme.error)
-       }
-   }
+        if (errorMessage != null) {
+            Text("Error: $errorMessage", color = MaterialTheme.colorScheme.error)
+        }
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -446,17 +466,41 @@ fun Screen2() {
                         IpInfoText(label = "Radio", value = deviceDetails.deviceRadio)
                         IpInfoText(label = "Serial", value = deviceDetails.deviceSerial)
                         IpInfoText(label = "Time", value = deviceDetails.deviceTime.toString())
-                        IpInfoText(label = "Security Patch", value = deviceDetails.deviceSecurityPatch)
+                        IpInfoText(
+                            label = "Security Patch",
+                            value = deviceDetails.deviceSecurityPatch
+                        )
                         IpInfoText(label = "Codename", value = deviceDetails.deviceCodename)
                         IpInfoText(label = "Incremental", value = deviceDetails.deviceIncremental)
                         IpInfoText(label = "Base OS", value = deviceDetails.deviceBaseOS)
-                        IpInfoText(label = "Version Code Name", value = deviceDetails.deviceVersionCodeName)
-                        IpInfoText(label = "Version Release", value = deviceDetails.deviceVersionRelease)
-                        IpInfoText(label = "Version SDK", value = deviceDetails.deviceVersionSDK.toString())
-                        IpInfoText(label = "Version Security Patch", value = deviceDetails.deviceVersionSecurityPatch)
-                        IpInfoText(label = "Version Incremental", value = deviceDetails.deviceVersionIncremental)
-                        IpInfoText(label = "Version Base OS", value = deviceDetails.deviceVersionBaseOS)
-                        IpInfoText(label = "Version Preview SDK", value = deviceDetails.deviceVersionPreviewSDK.toString())
+                        IpInfoText(
+                            label = "Version Code Name",
+                            value = deviceDetails.deviceVersionCodeName
+                        )
+                        IpInfoText(
+                            label = "Version Release",
+                            value = deviceDetails.deviceVersionRelease
+                        )
+                        IpInfoText(
+                            label = "Version SDK",
+                            value = deviceDetails.deviceVersionSDK.toString()
+                        )
+                        IpInfoText(
+                            label = "Version Security Patch",
+                            value = deviceDetails.deviceVersionSecurityPatch
+                        )
+                        IpInfoText(
+                            label = "Version Incremental",
+                            value = deviceDetails.deviceVersionIncremental
+                        )
+                        IpInfoText(
+                            label = "Version Base OS",
+                            value = deviceDetails.deviceVersionBaseOS
+                        )
+                        IpInfoText(
+                            label = "Version Preview SDK",
+                            value = deviceDetails.deviceVersionPreviewSDK.toString()
+                        )
 
                     }
                 }
@@ -469,36 +513,49 @@ fun Screen2() {
 @Composable
 fun Screen3() {
     val context = LocalContext.current
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        Column(
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
+    val hasNotificationPermission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        NotificationManagerCompat.from(context).areNotificationsEnabled()  // 检查通知权限
+    } else {
+       true  // 如果设备版本低于Tiramisu，则默认为true
+    }
+
+    if (hasNotificationPermission)  //
+    {
+        Text("Notification permission granted")
+    } else {
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
         ) {
-            Text(text = "Notification permission is required to use this feature", style = MaterialTheme.typography.labelMedium,
-                color = MaterialTheme.colorScheme.primary,
-                fontWeight = FontWeight.Bold,
-                fontFamily = FontFamily.Default
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            Button(onClick = {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
-                    if (!NotificationManagerCompat.from(context).areNotificationsEnabled()) {
-                        val intent = Intent().apply {
-                            action = Settings.ACTION_APP_NOTIFICATION_SETTINGS
-                            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                            putExtra(Settings.EXTRA_APP_PACKAGE, context.packageName)
+            Column(
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = "Notification permission is required to use this feature",
+                    style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.primary,
+                    fontWeight = FontWeight.Bold,
+                    fontFamily = FontFamily.Default
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                Button(onClick = {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                        if (!NotificationManagerCompat.from(context).areNotificationsEnabled()) {
+                            val intent = Intent().apply {
+                                action = Settings.ACTION_APP_NOTIFICATION_SETTINGS  // 打开通知设置页面
+                                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)  // 添加标志
+                                putExtra(Settings.EXTRA_APP_PACKAGE, context.packageName)  // 设置包名
+                            }
+                            context.startActivity(intent)
+                        } else {
+                            // 提示用户通知权限已开启
+                            Toast.makeText(context, "通知权限已开启", Toast.LENGTH_SHORT).show()
                         }
-                        context.startActivity(intent)
-                    } else {
-                        // 提示用户通知权限已开启
-                        Toast.makeText(context, "通知权限已开启", Toast.LENGTH_SHORT).show()
                     }
+                }) {
+                    Text(text = "114514")
                 }
-            }) {
-                Text(text = "114514")
             }
         }
     }
