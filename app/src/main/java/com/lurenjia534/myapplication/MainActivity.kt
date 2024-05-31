@@ -265,12 +265,12 @@ fun CustomizeTopBar(onNavigationIconClick: () -> Unit) {
 @Composable
 fun Screen1() {
 
-    var ipInfo by remember { mutableStateOf<Ipinfo?>(null) }
-    var errorMessage by remember { mutableStateOf<String?>(null) }
-    var isLoading by remember { mutableStateOf(false) }
-    var text by remember { mutableStateOf("") }
-    var isError by remember { mutableStateOf(false) }
-    val scope = rememberCoroutineScope()
+    var ipInfo by remember { mutableStateOf<Ipinfo?>(null) }   // 用于存储IP信息
+    var errorMessage by remember { mutableStateOf<String?>(null) }  // 用于存储错误信息
+    var isLoading by remember { mutableStateOf(false) }  // 用于存储加载状态
+    var text by remember { mutableStateOf("") }  // 用于存储输入的文本
+    var isError by remember { mutableStateOf(false) }  // 用于存储错误状态
+    val scope = rememberCoroutineScope()  // 创建一个CoroutineScope实例
 
     Column(
         modifier = Modifier
@@ -516,12 +516,18 @@ fun Screen3() {
     val hasNotificationPermission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
         NotificationManagerCompat.from(context).areNotificationsEnabled()  // 检查通知权限
     } else {
-       true  // 如果设备版本低于Tiramisu，则默认为true
+        true  // 如果设备版本低于Tiramisu，则默认为true
     }
 
     if (hasNotificationPermission)  //
     {
-        Text("Notification permission granted")
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Top,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            OutlinedTextField(value = "" , onValueChange = {}, label = { Text("Title") })
+        }
     } else {
         Box(
             modifier = Modifier.fillMaxSize(),
@@ -540,7 +546,8 @@ fun Screen3() {
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Button(onClick = {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)  // 如果设备版本高于Tiramisu
+                    {
                         if (!NotificationManagerCompat.from(context).areNotificationsEnabled()) {
                             val intent = Intent().apply {
                                 action = Settings.ACTION_APP_NOTIFICATION_SETTINGS  // 打开通知设置页面
@@ -554,7 +561,7 @@ fun Screen3() {
                         }
                     }
                 }) {
-                    Text(text = "114514")
+                    Text(text = "Grant permission")
                 }
             }
         }
