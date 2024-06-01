@@ -80,7 +80,9 @@ import android.provider.Settings;
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.material.icons.filled.Build
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.TextFieldDefaults
 import androidx.core.content.ContextCompat
 import com.lurenjia534.myapplication.notificationnotification.sendNotification
 
@@ -558,8 +560,16 @@ fun Screen3() {
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            OutlinedTextField(value = title , onValueChange = { title=it }, label = { Text("Title") })
+            OutlinedTextField(
+                value = title ,
+                onValueChange = { title=it },
+                label = { Text("Title") },
+                leadingIcon = {
+                    Icon(Icons.Filled.Check, contentDescription = null)
+                }
+            )
             OutlinedTextField(value = content, onValueChange = { content=it }, label = { Text("Content") })
+            Spacer(modifier = Modifier.height(16.dp))
             Button(onClick = {
                 if (title.isNotEmpty() && content.isNotEmpty()) {
                     sendNotification(context, title, content)

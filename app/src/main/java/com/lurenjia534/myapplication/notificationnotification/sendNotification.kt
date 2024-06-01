@@ -44,7 +44,7 @@ fun sendNotification(
         .setSmallIcon(R.drawable.ic_launcher_foreground)
         .setContentTitle(title)
         .setContentText(content)
-        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+        .setPriority(NotificationCompat.PRIORITY_MAX)
         .setContentIntent(pendingIntent)
         .setAutoCancel(true)
         .setOngoing(true) // This makes the notification persistent
