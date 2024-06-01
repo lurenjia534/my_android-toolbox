@@ -79,8 +79,10 @@ import retrofit2.Response
 import android.provider.Settings;
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
+import androidx.compose.material.icons.filled.Build
 import androidx.compose.material3.TextButton
 import androidx.core.content.ContextCompat
+import com.lurenjia534.myapplication.notificationnotification.sendNotification
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -204,6 +206,33 @@ fun MyApp() {
                             Icon(Icons.Filled.Notifications, contentDescription = null)
                         }
                     )
+                    NavigationDrawerItem(
+                        label = {
+                            Text(
+                                text = "Http request",
+                                fontWeight = if (selectedItem == 3) FontWeight.Bold else FontWeight.Normal,
+                                color = if (selectedItem == 3) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
+                            )
+                        },
+                        selected = selectedItem == 3,
+                        onClick = {
+                            selectedItem = 3
+                            navController.navigate("screen4") {
+                                popUpTo(navController.graph.startDestinationId)
+                                launchSingleTop = true
+                            }
+                            scope.launch {
+                                drawerState.close()
+                            }
+                        },
+                        colors = NavigationDrawerItemDefaults.colors(
+                            selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                            selectedIconColor = MaterialTheme.colorScheme.primary,
+                        ),
+                        icon = {
+                            Icon(Icons.Filled.Create, contentDescription = null)
+                        }
+                    )
                 }
                 // 其他抽屉项...
             }
@@ -230,6 +259,7 @@ fun MyApp() {
                             composable("screen1") { Screen1() }
                             composable("screen2") { Screen2() }
                             composable("screen3") { Screen3() }
+                            composable("screen4") { Screen4() }
                         }
                     }
                 },
@@ -512,6 +542,8 @@ fun Screen2() {
 
 @Composable
 fun Screen3() {
+    var title by remember { mutableStateOf("") }
+    var content by remember { mutableStateOf("") }
     val context = LocalContext.current
     val hasNotificationPermission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
         NotificationManagerCompat.from(context).areNotificationsEnabled()  // 检查通知权限
@@ -526,7 +558,15 @@ fun Screen3() {
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            OutlinedTextField(value = "" , onValueChange = {}, label = { Text("Title") })
+            OutlinedTextField(value = title , onValueChange = { title=it }, label = { Text("Title") })
+            OutlinedTextField(value = content, onValueChange = { content=it }, label = { Text("Content") })
+            Button(onClick = {
+                if (title.isNotEmpty() && content.isNotEmpty()) {
+                    sendNotification(context, title, content)
+                }
+            }) {
+                Text(text = "Send notification")
+            }
         }
     } else {
         Box(
@@ -565,5 +605,12 @@ fun Screen3() {
                 }
             }
         }
+    }
+}
+
+@Composable
+fun Screen4() {
+    Column {
+        Text("Screen 4")
     }
 }
